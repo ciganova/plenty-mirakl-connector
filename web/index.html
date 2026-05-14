@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlentyMirakl Connector — Mirakl orders into Plenty in 60 seconds</title>
+<meta name="description" content="Sync Douglas, Shop-Apotheke and Otto Market orders into Plenty ONE in 60 seconds. Tracking pushed back automatically. €29/mo, no native-connector enterprise fees.">
+<meta property="og:title" content="PlentyMirakl Connector — Mirakl ↔ Plenty ONE order sync">
+<meta property="og:description" content="Mirakl orders into Plenty in 60 seconds. Tracking auto-pushed. €29/mo, 200 orders included.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/og.png">
+<meta property="og:url" content="https://staging.plenty-mirakl.420.ovh/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2310b981'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='700' text-anchor='middle' fill='%23000'%3E%26gt;%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/htmx.org@1.9.12" defer></script>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-mono antialiased">
+
+<!-- NAV -->
+<nav class="border-b border-zinc-800 sticky top-0 bg-zinc-950/90 backdrop-blur z-40">
+  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 text-emerald-400 font-bold tracking-tight">
+      <span class="inline-block w-6 h-6 rounded bg-emerald-400 text-black grid place-items-center text-sm">&gt;</span>
+      plenty<span class="text-zinc-100">mirakl</span>
+    </a>
+    <div class="flex items-center gap-5 text-sm">
+      <a href="#how-it-works" class="text-zinc-400 hover:text-zinc-100">How</a>
+      <a href="#pricing" class="text-zinc-400 hover:text-zinc-100">Pricing</a>
+      <a href="#faq" class="text-zinc-400 hover:text-zinc-100">FAQ</a>
+      <a href="/panel" class="text-zinc-400 hover:text-zinc-100">Login</a>
+      <a href="/billing/checkout?plan=starter" class="px-3 py-1.5 rounded bg-emerald-400 text-black font-semibold hover:bg-emerald-300">Start trial</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="border-b border-zinc-800">
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+    <p class="text-emerald-400 text-xs uppercase tracking-widest mb-4">Plenty ONE ↔ Mirakl bridge</p>
+    <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] max-w-4xl">
+      Mirakl orders, in Plenty,<br>in <span class="text-emerald-400">60 seconds</span>.<br>
+      <span class="text-zinc-400 text-3xl md:text-5xl">Tracking pushed back automatically.</span>
+    </h1>
+    <p class="mt-6 text-lg text-zinc-300 max-w-2xl">
+      One bridge between Plenty ONE and every Mirakl marketplace you sell on. No copy-paste, no missed 24h-acceptance window, no €199/mo native connector.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/billing/checkout?plan=starter" class="px-6 py-3 rounded bg-emerald-400 text-black font-semibold hover:bg-emerald-300">Start 14-day trial →</a>
+      <a href="#how-it-works" class="px-6 py-3 rounded border border-zinc-700 text-zinc-100 hover:border-zinc-500">See it work</a>
+    </div>
+    <p class="mt-8 text-xs text-zinc-500 uppercase tracking-widest">
+      Connects · Douglas · Shop-Apotheke · Otto Market · Plenty ONE
+    </p>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section class="border-b border-zinc-800 bg-zinc-900/40">
+  <div class="max-w-6xl mx-auto px-5 py-20">
+    <h2 class="text-2xl md:text-3xl font-bold mb-10">Selling on Mirakl marketplaces from Plenty hurts in three places.</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="border border-zinc-800 rounded p-6">
+        <div class="text-emerald-400 text-sm mb-2">01 — Manual order copy</div>
+        <p class="text-zinc-300">Your warehouse team retypes Douglas orders into Plenty. Address typos, wrong SKU mapping, returns spike.</p>
+      </div>
+      <div class="border border-zinc-800 rounded p-6">
+        <div class="text-emerald-400 text-sm mb-2">02 — 24h auto-cancel</div>
+        <p class="text-zinc-300">Mirakl operators cancel orders if you don't accept within 24h. Miss a weekend, lose the sale, get rated down.</p>
+      </div>
+      <div class="border border-zinc-800 rounded p-6">
+        <div class="text-emerald-400 text-sm mb-2">03 — Tracking lag</div>
+        <p class="text-zinc-300">DHL number arrives in Plenty, but the customer on Douglas only sees "shipped" two days later. Bad reviews follow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="border-b border-zinc-800">
+  <div class="max-w-6xl mx-auto px-5 py-20">
+    <h2 class="text-2xl md:text-3xl font-bold mb-3">How it works</h2>
+    <p class="text-zinc-400 mb-10">Four steps. About ten minutes if you have your API keys ready.</p>
+    <ol class="grid md:grid-cols-4 gap-6">
+      <li class="border border-zinc-800 rounded p-6">
+        <div class="w-10 h-10 rounded bg-emerald-400 text-black grid place-items-center font-bold mb-4">1</div>
+        <h3 class="font-semibold mb-2">Connect Mirakl</h3>
+        <p class="text-zinc-400 text-sm">Paste one Mirakl API key per operator (Douglas, Shop-Apotheke, Otto Market…). Encrypted at rest.</p>
+      </li>
+      <li class="border border-zinc-800 rounded p-6">
+        <div class="w-10 h-10 rounded bg-emerald-400 text-black grid place-items-center font-bold mb-4">2</div>
+        <h3 class="font-semibold mb-2">Connect Plenty ONE</h3>
+        <p class="text-zinc-400 text-sm">REST user with order-write scope. Items stay read-only — we never touch your catalog.</p>
+      </li>
+      <li class="border border-zinc-800 rounded p-6">
+        <div class="w-10 h-10 rounded bg-emerald-400 text-black grid place-items-center font-bold mb-4">3</div>
+        <h3 class="font-semibold mb-2">We poll every 60s</h3>
+        <p class="text-zinc-400 text-sm">New Mirakl orders are imported into Plenty and accepted upstream — inside the operator window.</p>
+      </li>
+      <li class="border border-zinc-800 rounded p-6">
+        <div class="w-10 h-10 rounded bg-emerald-400 text-black grid place-items-center font-bold mb-4">4</div>
+        <h3 class="font-semibold mb-2">You ship, we sync</h3>
+        <p class="text-zinc-400 text-sm">Plenty writes the tracking number → we push it back to the marketplace within the next poll cycle.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="border-b border-zinc-800 bg-zinc-900/40">
+  <div class="max-w-6xl mx-auto px-5 py-20">
+    <h2 class="text-2xl md:text-3xl font-bold mb-3">One plan. No seats. No per-marketplace upcharge.</h2>
+    <p class="text-zinc-400 mb-10">Cancel any time. EU-hosted. All Mirakl operators included.</p>
+
+    <div class="grid md:grid-cols-3 gap-6 items-stretch">
+      <!-- our plan -->
+      <div class="md:col-span-1 border-2 border-emerald-400 rounded p-8 bg-zinc-950">
+        <div class="text-emerald-400 text-xs uppercase tracking-widest mb-2">Starter</div>
+        <div class="flex items-baseline gap-1 mb-4">
+          <span class="text-5xl font-bold">€29</span>
+          <span class="text-zinc-400">/mo</span>
+        </div>
+        <ul class="space-y-2 text-sm text-zinc-300 mb-6">
+          <li>✓ 200 synced orders included</li>
+          <li>✓ €0.15 per extra order</li>
+          <li>✓ All Mirakl operators included</li>
+          <li>✓ 60-second polling</li>
+          <li>✓ Auto-accept inside operator window</li>
+          <li>✓ Auto tracking push-back</li>
+          <li>✓ EU servers, encrypted credentials</li>
+          <li>✓ Cancel anytime</li>
+        </ul>
+        <a href="/billing/checkout?plan=starter" class="block text-center w-full px-4 py-3 rounded bg-emerald-400 text-black font-semibold hover:bg-emerald-300">Start 14-day trial</a>
+      </div>
+
+      <!-- compare -->
+      <div class="md:col-span-2 border border-zinc-800 rounded p-8">
+        <div class="text-zinc-400 text-xs uppercase tracking-widest mb-4">Compared to</div>
+        <div class="divide-y divide-zinc-800">
+          <div class="flex items-center justify-between py-3">
+            <div>
+              <div class="font-semibold">PlentyMirakl Connector</div>
+              <div class="text-zinc-500 text-sm">Bridge service, all operators</div>
+            </div>
+            <div class="text-emerald-400 font-bold">€29 / mo</div>
+          </div>
+          <div class="flex items-center justify-between py-3">
+            <div>
+              <div class="font-semibold">Typical native Mirakl connectors</div>
+              <div class="text-zinc-500 text-sm">Per-operator licensing, setup fees</div>
+            </div>
+            <div class="text-zinc-300">€99–199 / mo</div>
+          </div>
+          <div class="flex items-center justify-between py-3">
+            <div>
+              <div class="font-semibold">DIY copy-paste</div>
+              <div class="text-zinc-500 text-sm">Your warehouse team's hours + missed acceptance windows</div>
+            </div>
+            <div class="text-zinc-300">€0 + your time bleeding</div>
+          </div>
+        </div>
+        <p class="text-xs text-zinc-500 mt-6">Prices in EUR, exclusive of any local taxes where applicable. US-LLC invoicing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE STATUS -->
+<section class="border-b border-zinc-800">
+  <div class="max-w-6xl mx-auto px-5 py-20">
+    <h2 class="text-2xl md:text-3xl font-bold mb-3">Live status</h2>
+    <p class="text-zinc-400 mb-10">Honest numbers from the staging cluster. No marketing fiction.</p>
+    <div id="live-stats"
+         hx-get="/api/public/stats"
+         hx-trigger="load, every 30s"
+         hx-swap="innerHTML"
+         class="grid md:grid-cols-3 gap-6">
+      <div class="border border-zinc-800 rounded p-6">
+        <div class="text-zinc-500 text-xs uppercase tracking-widest mb-2">Orders synced · 24h</div>
+        <div class="text-3xl font-bold text-emerald-400">0</div>
+        <div class="text-zinc-500 text-xs mt-2">Be the first.</div>
+      </div>
+      <div class="border border-zinc-800 rounded p-6">
+        <div class="text-zinc-500 text-xs uppercase tracking-widest mb-2">Avg sync latency</div>
+        <div class="text-3xl font-bold text-emerald-400">— s</div>
+        <div class="text-zinc-500 text-xs mt-2">Target ≤ 60s.</div>
+      </div>
+      <div class="border border-zinc-800 rounded p-6">
+        <div class="text-zinc-500 text-xs uppercase tracking-widest mb-2">Uptime · 30d</div>
+        <div class="text-3xl font-bold text-emerald-400">—</div>
+        <div class="text-zinc-500 text-xs mt-2">Public health endpoint.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="border-b border-zinc-800 bg-zinc-900/40">
+  <div class="max-w-6xl mx-auto px-5 py-20">
+    <h2 class="text-2xl md:text-3xl font-bold mb-10">Frequently asked</h2>
+    <div class="space-y-4 max-w-3xl">
+      <details class="border border-zinc-800 rounded p-5 group" open>
+        <summary class="cursor-pointer font-semibold">How are my API keys stored?</summary>
+        <p class="mt-3 text-zinc-400 text-sm">Encrypted at rest with per-tenant keys. EU servers (Germany). Decrypted only in-memory at sync time. We never log key material.</p>
+      </details>
+      <details class="border border-zinc-800 rounded p-5">
+        <summary class="cursor-pointer font-semibold">Can I cancel? Refunds?</summary>
+        <p class="mt-3 text-zinc-400 text-sm">Cancel any time inside the panel — billing stops at the end of the current month. 14-day trial is no-card or fully refunded if you cancel within the trial.</p>
+      </details>
+      <details class="border border-zinc-800 rounded p-5">
+        <summary class="cursor-pointer font-semibold">Which Mirakl operators are supported?</summary>
+        <p class="mt-3 text-zinc-400 text-sm">Live: Douglas, Shop-Apotheke, Otto Market. Mirakl is a standardised API — adding a new operator typically takes us 1–2 days. Just ask: contact@vagabond-consulting.com.</p>
+      </details>
+      <details class="border border-zinc-800 rounded p-5">
+        <summary class="cursor-pointer font-semibold">What happens when I hit the 200-order quota?</summary>
+        <p class="mt-3 text-zinc-400 text-sm">Sync keeps running — every order beyond 200 is billed at €0.15 and shown live in the panel. No hard stop, no failed orders, no surprise upgrade prompt.</p>
+      </details>
+      <details class="border border-zinc-800 rounded p-5">
+        <summary class="cursor-pointer font-semibold">Does it conflict with the official Plenty Mirakl plugin?</summary>
+        <p class="mt-3 text-zinc-400 text-sm">No. We are read-only on items and write only on orders + tracking. You can run the official plugin in parallel and switch over without downtime.</p>
+      </details>
+      <details class="border border-zinc-800 rounded p-5">
+        <summary class="cursor-pointer font-semibold">How fast is onboarding?</summary>
+        <p class="mt-3 text-zinc-400 text-sm">Under 10 minutes if your Mirakl key and Plenty REST user are ready. The panel walks you through it and runs a dry-import on your last 5 orders before going live.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="border-b border-zinc-800">
+  <div class="max-w-6xl mx-auto px-5 py-20 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Stop retyping Mirakl orders.</h2>
+    <p class="text-zinc-400 mb-8">14-day trial. €29/mo after. Cancel anytime.</p>
+    <a href="/billing/checkout?plan=starter" class="inline-block px-8 py-4 rounded bg-emerald-400 text-black font-semibold hover:bg-emerald-300">Start 14-day trial →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="text-zinc-500 text-sm">
+  <div class="max-w-6xl mx-auto px-5 py-10 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
+    <div>
+      <div class="text-zinc-300 font-semibold">Vagabond Consulting LLC</div>
+      <div>30 N Gould St Ste R, Sheridan WY 82801, USA</div>
+      <div><a href="mailto:contact@vagabond-consulting.com" class="hover:text-emerald-400">contact@vagabond-consulting.com</a></div>
+    </div>
+    <div class="flex gap-5">
+      <a href="/imprint.html" class="hover:text-zinc-100">Imprint</a>
+      <a href="/terms.html" class="hover:text-zinc-100">Terms</a>
+      <a href="/privacy.html" class="hover:text-zinc-100">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

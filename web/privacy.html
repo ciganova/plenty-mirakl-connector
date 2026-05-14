@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy — PlentyMirakl Connector</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-mono">
+<div class="max-w-3xl mx-auto px-5 py-16">
+  <a href="/" class="text-emerald-400 text-sm">← Back</a>
+  <h1 class="text-3xl font-bold mt-4 mb-8">Privacy Policy</h1>
+  <div class="space-y-6 text-zinc-300 text-sm leading-relaxed">
+    <p>Effective: 2026-05-14. Controller: Vagabond Consulting LLC, 30 N Gould St Ste R, Sheridan WY 82801, USA. Contact: <a href="mailto:contact@vagabond-consulting.com" class="text-emerald-400">contact@vagabond-consulting.com</a>.</p>
+
+    <section><h2 class="text-zinc-100 font-semibold mb-2">1. What we collect</h2>
+    <ul class="list-disc pl-5 space-y-1">
+      <li><b>Account data:</b> business email, company name, billing address, payment method (handled by Stripe).</li>
+      <li><b>Integration credentials:</b> Mirakl API keys, Plenty REST credentials. Stored encrypted at rest.</li>
+      <li><b>Order metadata:</b> order IDs, line items, shipping addresses, tracking numbers — only as needed to synchronise between Mirakl and Plenty.</li>
+      <li><b>Operational logs:</b> sync timestamps, error messages. No request bodies containing customer-PII are persisted beyond 14 days.</li>
+    </ul></section>
+
+    <section><h2 class="text-zinc-100 font-semibold mb-2">2. This website</h2>
+    <p>This marketing site is static and sets <b>no cookies</b>. It loads Tailwind CSS and HTMX from public CDNs (jsDelivr / unpkg) — those CDN providers may log your IP per their own policies. No analytics, no tracking pixels, no fingerprinting.</p></section>
+
+    <section><h2 class="text-zinc-100 font-semibold mb-2">3. Legal basis (GDPR Art. 6)</h2>
+    <p>Processing is based on (a) contract performance for the Service itself, (b) legitimate interests for operational logging and abuse prevention, (c) legal obligation for tax/accounting retention.</p></section>
+
+    <section><h2 class="text-zinc-100 font-semibold mb-2">4. Sub-processors</h2>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>Hetzner Online GmbH — hosting, EU (Germany).</li>
+      <li>Stripe, Inc. — payments.</li>
+      <li>Mirakl S.A.S. and Plenty Markets GmbH — only as the platforms you direct us to call on your behalf.</li>
+    </ul></section>
+
+    <section><h2 class="text-zinc-100 font-semibold mb-2">5. Retention</h2>
+    <p>Account data is kept for the duration of your subscription plus 6 months. Invoicing data is kept for 10 years per US/EU accounting requirements. Sync logs: 14 days. You may request earlier deletion subject to legal retention obligations.</p></section>
+
+    <section><h2 class="text-zinc-100 font-semibold mb-2">6. Your rights (GDPR Art. 12–22)</h2>
+    <p>Access, rectification, erasure, restriction, portability, objection. Email <a href="mailto:contact@vagabond-consulting.com" class="text-emerald-400">contact@vagabond-consulting.com</a>. You may also lodge a complaint with your national data-protection authority.</p></section>
+
+    <section><h2 class="text-zinc-100 font-semibold mb-2">7. International transfers</h2>
+    <p>Operational data is processed on EU servers. Limited administrative access from the United States may occur on the basis of Standard Contractual Clauses.</p></section>
+  </div>
+</div>
+</body>
+</html>

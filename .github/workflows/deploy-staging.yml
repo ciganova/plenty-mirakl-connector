@@ -1,0 +1,54 @@
+name: Deploy staging
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+jobs:
+  wait-for-tests:
+    runs-on: ubuntu-latest
+    permissions: { checks: read, actions: read }
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    steps:
+      - uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.sha }}
+          check-name: pytest
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 15
+          allowed-conclusions: success
+
+  deploy:
+    needs: [wait-for-tests]
+    if: ${{ always() && (needs.wait-for-tests.result == 'success' || needs.wait-for-tests.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Setup SSH
+        env: { SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }} }
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -t ed25519 -H 147.189.175.131 >> ~/.ssh/known_hosts 2>/dev/null
+      - name: Rsync to servicebox
+        run: |
+          rsync -az --delete \
+            --exclude='.env' --exclude='.env.*' \
+            --exclude='.git/' --exclude='.github/' \
+            --exclude='_data/' --exclude='_data_staging/' \
+            --exclude='__pycache__/' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            ./ miromic@147.189.175.131:/opt/plenty-mirakl-connector-staging/
+      - name: Run deploy.sh
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes \
+              miromic@147.189.175.131 \
+              "sudo -n /opt/plenty-mirakl-connector-staging/bin/deploy.sh staging --migrate"

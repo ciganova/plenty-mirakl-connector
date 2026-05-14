@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}admin — plenty-mirakl{% endblock %}
+{% block body %}
+<header>
+  <h1>plenty-mirakl · admin</h1>
+  <span class="pill ok">{{ active_count }} active</span>
+  <span class="pill">{{ tenant_count }} total</span>
+  <span class="pill">€{{ total_mrr }} MRR</span>
+  <span class="pill">{{ month_orders }} orders this month</span>
+  <span style="margin-left:auto; color:var(--muted)">refresh {{ refresh_seconds }}s · {{ now.strftime('%H:%M:%S UTC') }}</span>
+</header>
+<main>
+  <div id="data" hx-get="/panel/admin/data" hx-trigger="every {{ refresh_seconds }}s" hx-swap="innerHTML">
+    {% include "admin_fragment.html" %}
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,35 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+.venv/
+venv/
+.venv-deploy/
+
+# Alembic caches
+alembic/versions/__pycache__/
+
+# JS
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
+
+# Runtime
+data/
+logs/
+*.log

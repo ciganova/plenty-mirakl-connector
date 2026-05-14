@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ tenant.name }} — plenty-mirakl{% endblock %}
+{% block body %}
+<header>
+  <h1>{{ tenant.name }}</h1>
+  <span class="pill {% if tenant.status == 'active' %}ok{% elif tenant.status in ('past_due','quota_exceeded') %}warn{% elif tenant.status in ('suspended','canceled') %}bad{% endif %}">{{ tenant.status }}</span>
+  <span class="pill">€29 / mo · quota {{ quota_used }}/{{ quota_total }}</span>
+  <span style="margin-left:auto; color:var(--muted)">refreshing every {{ refresh_seconds }}s · {{ now.strftime('%H:%M:%S UTC') }}</span>
+</header>
+<main>
+  <div id="data" hx-get="/panel/data" hx-trigger="every {{ refresh_seconds }}s" hx-swap="innerHTML">
+    {% include "tenant_fragment.html" %}
+  </div>
+</main>
+{% endblock %}

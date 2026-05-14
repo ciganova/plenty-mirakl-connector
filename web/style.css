@@ -1,0 +1,14 @@
+/* Minimal overrides on top of Tailwind CDN. Terminal aesthetic. */
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+::selection { background: #34d399; color: #000; }
+
+/* details marker */
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::after { content: "+"; float: right; color: #34d399; font-weight: bold; }
+details[open] > summary::after { content: "−"; }
+
+/* subtle scanline at top of hero */
+header { background-image: linear-gradient(180deg, rgba(16,185,129,0.04), transparent 30%); }

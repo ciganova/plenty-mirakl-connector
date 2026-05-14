@@ -1,0 +1,34 @@
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>tenant</th><th>status</th><th>plan</th><th>orders / mo</th>
+        <th>quota</th><th>errors</th><th>contact</th><th>created</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.tenant.name }}</td>
+        <td>
+          <span class="badge {% if r.tenant.status == 'active' %}ok{% elif r.tenant.status in ('past_due','quota_exceeded') %}warn{% else %}bad{% endif %}">{{ r.tenant.status }}</span>
+        </td>
+        <td>{% if r.tenant.stripe_subscription_id %}€29{% else %}—{% endif %}</td>
+        <td>{{ r.orders_month }}</td>
+        <td>
+          <div>{{ r.used }}/{{ r.quota }} <span class="vsub">({{ r.pct }}%)</span></div>
+          <div class="bar {% if r.pct >= 100 %}bad{% elif r.pct >= 80 %}warn{% endif %}">
+            <div style="width: {{ r.pct if r.pct < 100 else 100 }}%"></div>
+          </div>
+        </td>
+        <td style="color:{% if r.errors > 5 %}var(--red){% elif r.errors %}var(--yellow){% else %}var(--muted){% endif %}">{{ r.errors }}</td>
+        <td>{{ r.tenant.contact_email or '' }}</td>
+        <td>{{ r.tenant.created_at.strftime('%Y-%m-%d') }}</td>
+      </tr>
+      {% endfor %}
+      {% if not rows %}
+        <tr><td colspan="8" style="color:var(--muted)">no tenants — bootstrap with scripts/saas_admin.py tenant create</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>

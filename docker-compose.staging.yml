@@ -1,0 +1,78 @@
+# Same shape as docker-compose.yml but: distinct project (pmc-staging),
+# distinct domain via Traefik label, distinct volume name. Mounted under
+# /opt/plenty-mirakl-connector-staging on the servicebox.
+version: "3.9"
+
+networks:
+  traefik_default:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  pg_data_staging:
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: connector
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+      POSTGRES_DB: connector
+    volumes:
+      - pg_data_staging:/var/lib/postgresql/data
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U connector"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks: [internal]
+    healthcheck: { test: ["CMD","redis-cli","ping"], interval: 10s, timeout: 5s, retries: 5 }
+
+  api:
+    build: .
+    restart: unless-stopped
+    env_file: .env.staging
+    depends_on: { postgres: { condition: service_healthy }, redis: { condition: service_healthy } }
+    networks: [traefik_default, internal]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_default"
+      - "traefik.http.routers.pmc-staging.rule=Host(`staging.plenty-mirakl.420.ovh`)"
+      - "traefik.http.routers.pmc-staging.entrypoints=websecure"
+      - "traefik.http.routers.pmc-staging.tls.certresolver=mytls"
+      - "traefik.http.services.pmc-staging.loadbalancer.server.port=8000"
+    command: >
+      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2"
+
+  worker:
+    build: .
+    restart: unless-stopped
+    env_file: .env.staging
+    depends_on: { postgres: { condition: service_healthy }, redis: { condition: service_healthy } }
+    networks: [internal]
+    command: >
+      celery -A app.tasks.celery_app.celery_app worker
+      -Q orders,tracking,inventory --loglevel=info --concurrency=4
+
+  scheduler:
+    build: .
+    restart: unless-stopped
+    env_file: .env.staging
+    depends_on: { postgres: { condition: service_healthy }, redis: { condition: service_healthy } }
+    networks: [internal]
+    command: >
+      celery -A app.tasks.celery_app.celery_app beat
+      --loglevel=info --scheduler celery.beat:PersistentScheduler

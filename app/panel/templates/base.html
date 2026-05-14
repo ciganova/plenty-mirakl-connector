@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}plenty-mirakl{% endblock %}</title>
+<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #30363d;
+    --fg: #c9d1d9;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --red: #f85149;
+    --blue: #58a6ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+    font: 13px/1.4 "SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
+  }
+  header {
+    display: flex; align-items: center; gap: 1rem;
+    padding: .8rem 1.2rem; border-bottom: 1px solid var(--border);
+    background: var(--panel);
+  }
+  header h1 { margin: 0; font-size: 14px; font-weight: 600; }
+  header .pill {
+    padding: 2px 8px; border-radius: 10px; font-size: 11px;
+    background: var(--border); color: var(--fg);
+  }
+  header .pill.ok { background: var(--green); color: #000; }
+  header .pill.warn { background: var(--yellow); color: #000; }
+  header .pill.bad { background: var(--red); color: #fff; }
+  main { padding: 1.2rem; }
+
+  .grid { display: grid; gap: 1rem; }
+  .grid.kpi { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin-bottom: 1rem; }
+  .grid.cards { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 6px; padding: .9rem 1rem;
+  }
+  .card h3 { margin: 0 0 .5rem 0; font-size: 11px; text-transform: uppercase;
+             color: var(--muted); letter-spacing: .04em; }
+  .card .v  { font-size: 22px; font-weight: 600; }
+  .card .vsub { color: var(--muted); font-size: 11px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { padding: 6px 10px; border-bottom: 1px solid var(--border);
+           text-align: left; white-space: nowrap; }
+  th { color: var(--muted); font-weight: 500; text-transform: uppercase;
+       font-size: 10px; letter-spacing: .04em; }
+  tr:hover td { background: rgba(255,255,255,.02); }
+
+  .bar {
+    height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+    margin-top: .3rem;
+  }
+  .bar > div { height: 100%; background: var(--blue); }
+  .bar.warn > div { background: var(--yellow); }
+  .bar.bad  > div { background: var(--red); }
+
+  .badge { padding: 1px 6px; border-radius: 4px; font-size: 10px; }
+  .badge.ok { background: var(--green); color: #000; }
+  .badge.warn { background: var(--yellow); color: #000; }
+  .badge.bad { background: var(--red); color: #fff; }
+  .badge.muted { background: var(--border); color: var(--muted); }
+
+  .footer { color: var(--muted); margin-top: 1.2rem; font-size: 11px; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,67 @@
+<div class="grid kpi">
+  <div class="card"><h3>orders today</h3><div class="v">{{ orders_today }}</div></div>
+  <div class="card"><h3>orders 7d</h3><div class="v">{{ orders_week }}</div></div>
+  <div class="card"><h3>orders 30d</h3><div class="v">{{ orders_month }}</div></div>
+  <div class="card"><h3>errors</h3>
+    <div class="v" style="color:{% if error_count %}var(--red){% else %}var(--green){% endif %}">{{ error_count }}</div>
+  </div>
+  <div class="card"><h3>quota</h3>
+    <div class="v">{{ quota_pct }}%</div>
+    <div class="bar {% if quota_pct >= 100 %}bad{% elif quota_pct >= 80 %}warn{% endif %}">
+      <div style="width: {{ quota_pct if quota_pct < 100 else 100 }}%"></div>
+    </div>
+    <div class="vsub">{{ quota_used }} / {{ quota_total }} orders this month</div>
+  </div>
+</div>
+
+<div class="grid cards">
+  {% for c in mirakl_conns %}
+  <div class="card">
+    <h3>mirakl · {{ c.label }}</h3>
+    <div>{{ c.base_url }}</div>
+    <div class="vsub">shop {{ c.shop_id }} · {% if c.active %}<span class="badge ok">active</span>{% else %}<span class="badge muted">inactive</span>{% endif %}</div>
+    <div class="vsub">last poll: {{ c.last_poll_at.strftime('%Y-%m-%d %H:%M:%SZ') if c.last_poll_at else 'never' }}
+      {% if c.last_poll_ok %}<span class="badge ok">ok</span>
+      {% elif c.last_poll_ok is none %}<span class="badge muted">?</span>
+      {% else %}<span class="badge bad">fail</span>{% endif %}
+    </div>
+    {% if c.consecutive_failures %}
+      <div class="vsub" style="color:var(--red)">{{ c.consecutive_failures }} consecutive failures</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+
+  {% for c in plenty_conns %}
+  <div class="card">
+    <h3>plenty · {{ c.label }}</h3>
+    <div>{{ c.base_url }}</div>
+    <div class="vsub">user {{ c.username }} · referrer {{ c.referrer_id }} · warehouse {{ c.warehouse_id }}</div>
+    {% if c.webhook_secret %}
+      <div class="vsub"><span class="badge ok">webhook configured</span></div>
+    {% else %}
+      <div class="vsub"><span class="badge warn">webhook missing</span> — using poller fallback</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
+<div class="card" style="margin-top:1rem">
+  <h3>recent activity (last 50)</h3>
+  <table>
+    <thead><tr><th>ts</th><th>action</th><th>actor</th><th>entity</th><th>id</th></tr></thead>
+    <tbody>
+      {% for r in audit_rows %}
+      <tr>
+        <td>{{ r.ts.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{ r.action }}</td>
+        <td>{{ r.actor }}</td>
+        <td>{{ r.entity or '' }}</td>
+        <td>{{ r.entity_id or '' }}</td>
+      </tr>
+      {% endfor %}
+      {% if not audit_rows %}
+        <tr><td colspan="5" style="color:var(--muted)">no events yet</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
