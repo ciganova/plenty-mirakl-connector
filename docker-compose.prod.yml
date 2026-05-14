@@ -48,7 +48,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_default"
-      - "traefik.http.routers.pmc.rule=Host(`plenty-mirakl.420.ovh`)"
+      - "traefik.http.routers.pmc.rule=Host(`connector.vagabond-consulting.com`) || Host(`plenty-mirakl.420.ovh`)"
       - "traefik.http.routers.pmc.entrypoints=websecure"
       - "traefik.http.routers.pmc.tls.certresolver=letsencrypt"
       - "traefik.http.services.pmc.loadbalancer.server.port=8000"

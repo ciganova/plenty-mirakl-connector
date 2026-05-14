@@ -293,13 +293,17 @@ def upgrade() -> None:
     """)
 
     # GRANTs so connector_app can actually read/write (only own rows).
-    op.execute("""
-        GRANT USAGE ON SCHEMA public TO connector_app;
-        GRANT SELECT, INSERT, UPDATE, DELETE
-            ON ALL TABLES IN SCHEMA public TO connector_app;
-        GRANT USAGE, SELECT, UPDATE
-            ON ALL SEQUENCES IN SCHEMA public TO connector_app;
-    """)
+    # NOTE: split into separate op.execute() calls — asyncpg cannot run
+    # multiple statements in one prepared statement (PostgresSyntaxError).
+    op.execute("GRANT USAGE ON SCHEMA public TO connector_app")
+    op.execute(
+        "GRANT SELECT, INSERT, UPDATE, DELETE "
+        "ON ALL TABLES IN SCHEMA public TO connector_app"
+    )
+    op.execute(
+        "GRANT USAGE, SELECT, UPDATE "
+        "ON ALL SEQUENCES IN SCHEMA public TO connector_app"
+    )
 
 
 # ---------------------------------------------------------------------------
