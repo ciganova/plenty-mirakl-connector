@@ -50,10 +50,14 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_default"
-      - "traefik.http.routers.pmc-staging.rule=Host(`staging.connector.vagabond-consulting.com`) || Host(`staging.plenty-mirakl.420.ovh`)"
-      - "traefik.http.routers.pmc-staging.entrypoints=websecure"
-      - "traefik.http.routers.pmc-staging.tls.certresolver=mytls"
-      - "traefik.http.services.pmc-staging.loadbalancer.server.port=8000"
+      - "traefik.http.routers.connectorstaging.rule=Host(`staging.connector.vagabond-consulting.com`)"
+      - "traefik.http.routers.connectorstaging.entrypoints=websecure"
+      - "traefik.http.routers.connectorstaging.tls.certresolver=mytls"
+      - "traefik.http.routers.connectorstaging-legacy.rule=Host(`staging.plenty-mirakl.420.ovh`)"
+      - "traefik.http.routers.connectorstaging-legacy.entrypoints=websecure"
+      - "traefik.http.routers.connectorstaging-legacy.tls.certresolver=mytls"
+      - "traefik.http.routers.connectorstaging-legacy.service=connectorstaging"
+      - "traefik.http.services.connectorstaging.loadbalancer.server.port=8000"
     command: >
       sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2"
 

@@ -37,7 +37,7 @@ case "$ENV" in
         FILE=docker-compose.staging.yml
         PROJECT=pmc-staging
         ENVFILE=.env.staging
-        URL=https://staging.plenty-mirakl.420.ovh
+        URL=https://staging.connector.vagabond-consulting.com
         DB_CONTAINER=pmc-staging-postgres-1
         BACKUP_DIR=/var/backups/pmc-staging
         ;;
@@ -46,7 +46,7 @@ case "$ENV" in
         FILE=docker-compose.prod.yml
         PROJECT=
         ENVFILE=.env
-        URL=https://plenty-mirakl.420.ovh
+        URL=https://connector.vagabond-consulting.com
         DB_CONTAINER=plenty-mirakl-connector-postgres-1
         BACKUP_DIR=/var/backups/pmc
         ;;
