@@ -438,3 +438,41 @@ the BillionMail HTTP endpoint is a one-line call documented as TODO at
   (Mirakl mocked).
 * Panel reachable at `localhost:8000/panel` (with API key) and `/panel/admin`
   (with admin key).
+
+---
+
+## 12. Production routing (added 2026-05-14)
+
+Live demo edge runs **Cloudflare Tunnel**, not Traefik:
+
+```
+internet → Cloudflare edge (TLS) → cloudflared-pmc (docker) → api:8000
+```
+
+* Tunnel id `2c82f717-1846-4095-ad30-9cc0fb7aad48` (`pmc-connector`).
+* Container `cloudflared-pmc` on docker networks `traefik_default`,
+  `plenty-mirakl-prod_internal`, `pmc-staging_internal` so it can resolve
+  both backends by docker DNS name.
+* Ingress in CF Tunnel config:
+  * `connector.vagabond-consulting.com` → `http://plenty-mirakl-prod-api-1:8000`
+  * `staging-connector.vagabond-consulting.com` → `http://pmc-staging-api-1:8000`
+* DNS: CF CNAME → `<tunnel-id>.cfargotunnel.com`, proxied=true.
+* Traefik labels stripped from compose files — Traefik no longer involved.
+
+Why pivot from Traefik:
+1. Let's Encrypt rate-limited the vagabond-consulting.com account due to
+   pre-existing failing subdomains (drinkmate, ai-support-helper).
+2. Traefik docker-provider showed no router-load events for our containers
+   even with correct labels — root cause not isolated within demo budget.
+
+CF Tunnel benefits realised:
+* No Let's Encrypt dependency.
+* Survives Traefik restarts.
+* Origin server not exposed on port 443 (defense in depth).
+* `~50ms TLS handshake at edge.
+
+Note on `staging-connector` vs `staging.connector`:
+* CF free Universal SSL covers `*.vagabond-consulting.com` (one level only).
+* `staging.connector.vagabond-consulting.com` (two levels) needs CF Advanced
+  Cert Manager ($10/mo). Per the no-money rule we used `staging-connector.*`
+  (one level) instead.
